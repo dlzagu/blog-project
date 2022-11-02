@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import Search from "./Search";
+import NavLink from "./NavLink";
 
 function Header() {
   const navigate = useNavigate();
@@ -10,7 +11,7 @@ function Header() {
       <ContentContainer>
         <Logo src="./logo.png" alt="logo" onClick={() => navigate("/")}></Logo>
         <Search />
-        <Div>그냥</Div>
+        <NavLink />
       </ContentContainer>
     </HeaderContainer>
   );
@@ -28,13 +29,13 @@ const HeaderContainer = styled.nav`
 
 const ContentContainer = styled.div`
   width: 100%;
-  height: 4rem;
-  padding: 0 2rem;
+  height: 7rem;
+  padding: 0 4rem;
   ${(props) => props.theme.mixins.flexBox("row", "center", "space-between")}
 `;
 
 const Logo = styled.img`
   cursor: pointer;
-  width: 3rem;
+  width: 5rem;
 `;
 const Div = styled.div``;
