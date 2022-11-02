@@ -25,7 +25,7 @@ const SearchForm = styled.form`
 const SearchInput = styled.input`
   color: inherit;
   background-color: ${(props) => props.theme.lightGrey};
-  font-size: ${(props) => props.theme.fontSmallest};
+  font-size: ${(props) => props.theme.fontRegular};
   border: ${(props) => props.theme.lightDarkGrey} 1px solid;
   width: 100%;
   border-radius: 0.4rem;
