@@ -54,12 +54,14 @@ const DropDownContainer = styled.div`
   background-color: ${(props) => props.theme.lightDarkGrey};
   ${(props) =>
     props.itemScope
-      ? `visibility: hidden;
+      ? `visibility: visible;
   `
-      : `visibility: visible;
+      : `visibility: hidden;
   `}
 
-  box-shadow: 1px 4px 5px ${(props) => props.theme.lightDarkGrey};
+  border: ${(props) => props.theme.lightDarkGrey} 1px solid;
+  border-radius: 0.5rem;
+  overflow: hidden; ;
 `;
 const UserInfo = styled.div`
   ${(props) => props.theme.mixins.flexBox("column", "center", "center")}
