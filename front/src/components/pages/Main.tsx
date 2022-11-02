@@ -8,7 +8,6 @@ function Main() {
 const MainContainer = styled.div`
   margin-top: 4rem;
   background-color: ${(props) => props.theme.lightGrey};
-  height: 100vh;
 `;
 
 export default Main;
