@@ -5,9 +5,10 @@ import {
   BsCalendarDateFill,
   BsSearch,
   BsFillBellFill,
+  BsSuitHeartFill,
 } from "react-icons/bs";
 import { VscTriangleDown, VscTriangleUp } from "react-icons/vsc";
-import { FaUserFriends, FaCrown } from "react-icons/fa";
+import { FaCrown } from "react-icons/fa";
 import { FiSend } from "react-icons/fi";
 import { BiCloudUpload, BiRefresh } from "react-icons/bi";
 
@@ -38,8 +39,8 @@ const CustomIcon = ({ name, size, color }: CustomIconProps) => {
       case "SeachIcon":
         return <BsSearch size={size} color={color}></BsSearch>;
 
-      case "following":
-        return <FaUserFriends size={size} color={color}></FaUserFriends>;
+      case "like":
+        return <BsSuitHeartFill size={size} color={color}></BsSuitHeartFill>;
       case "bell":
         return <BsFillBellFill size={size} color={color}></BsFillBellFill>;
       case "send":
