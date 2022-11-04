@@ -370,7 +370,7 @@ const PostBorder = styled.div`
 `;
 const PostInfo = styled.div``;
 const PostTitle = styled.h4`
-  font-size: 1rem;
+  font-size: ${(props) => props.theme.fontRegular}
   margin: 0px 0px 0.25rem;
   line-height: 1.5;
   word-break: break-word;
@@ -386,7 +386,7 @@ const PostDescription = styled.p`
   margin: 0px 0px 1.5rem;
   word-break: break-word;
   overflow-wrap: break-word;
-  font-size: 0.875rem;
+  font-size: ${(props) => props.theme.fontSmall};
   line-height: 1.5;
   height: 3.9375rem;
   display: -webkit-box;
@@ -397,7 +397,7 @@ const PostDescription = styled.p`
   color: #495057;
 `;
 const SubInfo = styled.div`
-  font-size: 0.75rem;
+  font-size: ${(props) => props.theme.fontMicro};
   line-height: 1.5;
   color: #868e96;
 `;
