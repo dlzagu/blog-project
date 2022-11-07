@@ -1,3 +1,4 @@
+import jwt from "jsonwebtoken";
 import Users from "../models/userModel";
 import bcrypt from "bcrypt";
 import { generateActiveToken } from "../config/generateToken";
@@ -29,6 +30,38 @@ const authCtrl = {
       }
     } catch (err) {
       return res.status(500).json({ msg: err.message });
+    }
+  },
+  active: async (req, res) => {
+    try {
+      const { active_token } = req.body;
+
+      const decoded = jwt.verify(
+        active_token,
+        `${process.env.ACTIVE_TOKEN_SECRET}`
+      );
+
+      const { newUser } = decoded;
+
+      if (!newUser) return res.status(400).json({ msg: "잘못된 인증입니다." });
+
+      const user = new Users(newUser);
+
+      await user.save();
+
+      res.json({ msg: "계정이 활성화되었습니다!" });
+    } catch (error) {
+      let errorMessage;
+
+      if (error.code === 11000) {
+        // duplicate key error 11000 in mongodb
+        errorMessage = Object.keys(error.keyValue)[0] + " already exists.";
+      } else {
+        const name = Object.keys(error.errors)[0];
+        errorMessage = error.errors[`${name}`].message;
+      }
+
+      return res.status(500).json({ msg: errorMessage });
     }
   },
 };
