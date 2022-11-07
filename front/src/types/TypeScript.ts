@@ -1,6 +1,6 @@
 export interface AuthFormInitialType {
   email: string;
-  nickname?: string;
+  name?: string;
   password: string;
   confirmPassword?: string;
 }
