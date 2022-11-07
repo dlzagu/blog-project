@@ -1,9 +1,9 @@
 import jwt from "jsonwebtoken";
-import Users from "../models/userModel";
+import Users from "../models/userModel.js";
 import bcrypt from "bcrypt";
-import { generateActiveToken } from "../config/generateToken";
-import sendMail from "../config/sendMail";
-import { validateEmail } from "../middleware/valid";
+import { generateActiveToken } from "../config/generateToken.js";
+import sendMail from "../config/sendMail.js";
+import { validateEmail } from "../middleware/valid.js";
 
 const CLIENT_URL = `${process.env.BASE_URL}`;
 

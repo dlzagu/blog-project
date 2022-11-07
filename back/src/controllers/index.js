@@ -1,3 +1,3 @@
-import authCtrl from "./authCtrl";
+import authCtrl from "./authCtrl.js";
 
 export { authCtrl };

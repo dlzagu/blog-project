@@ -1,4 +1,4 @@
-import authRouter from "./authRouter";
+import authRouter from "./authRouter.js";
 
 const routes = {
   authRouter,
