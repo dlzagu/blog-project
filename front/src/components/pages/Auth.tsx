@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
-import useCheckDuplication from "../hooks/useCheckDuplication";
 import AuthLogin from "../auth/AuthLogin";
 import AuthReigster from "../auth/AuthRegister";
 // import AuthEmailVerification from "@/components/auth/AuthEmailVerification";
@@ -11,12 +10,7 @@ import Modal from "../modal/Modal";
 import useModal from "../hooks/useModal";
 import { AuthFormInitialType } from "@/types/TypeScript";
 import { ErrorType } from "@/types/TypeScript";
-// import {
-//   authRegisterRequest,
-//   authLoginRequest,
-//   authVerificationCodeSend,
-//   authVerificationCodeCheck,
-// } from "@/api/authFetcher";
+import { postAPI } from "../../api/FetchData";
 import { useSetRecoilState } from "recoil";
 // import { loginUserIdState } from "@/recoil/atoms/authState";
 const TapMenu = ["로그인", "회원가입"];
@@ -32,15 +26,14 @@ const Auth = () => {
     mode: "onChange",
     defaultValues: {
       email: "",
-      nickname: "",
+      name: "",
       password: "",
       confirmPassword: "",
     },
   });
   const [tabIndex, setTabIndex] = useState(0);
   const [errMessage, setErrMessage] = useState("");
-  const [isVerified, setIsVerified] = useState(false);
-  const [verificationCode, setVerificationCode] = useState("");
+
   const [
     isOpenModal,
     ,
@@ -64,39 +57,24 @@ const Auth = () => {
   ] = useModal(false);
 
   useEffect(() => {
-    reset({ email: "", nickname: "", password: "", confirmPassword: "" });
+    reset({ email: "", name: "", password: "", confirmPassword: "" });
     setErrMessage("");
-    setIsVerified(false);
-    setVerificationCode("");
-    setIsDuplicated({
-      email: false,
-      nickname: false,
-    });
   }, [tabIndex, reset]);
 
-  const { isDuplicated, setIsDuplicated, handleCheckDuplication } =
-    useCheckDuplication({
-      setErrMessage,
-      handleModalOpenButtonClick,
-    });
   const curEmail = watch("email");
   //   const setLoginUserId = useSetRecoilState(loginUserIdState);
 
   const navigate = useNavigate();
 
   const handleRegisterSubmit = async (data: AuthFormInitialType) => {
-    const { email, nickname, password } = data;
-    if (!isVerified) {
-      setErrMessage("이메일 인증이 필요합니다.");
-      handleModalOpenButtonClick();
-      return;
-    }
-    // const res = await authRegisterRequest("/api/auth/register", {
-    //   email,
-    //   nickname,
-    //   password,
-    // });
-    // if (res) handleWelcomeModalOpenButtonClick();
+    const { email, name, password } = data;
+
+    const res = await postAPI("register", {
+      email,
+      name,
+      password,
+    });
+    if (res) handleWelcomeModalOpenButtonClick();
   };
 
   const handleLoginSubmit = async (data: AuthFormInitialType) => {
@@ -115,32 +93,6 @@ const Auth = () => {
     //     setErrMessage("이메일 혹은 비밀번호가 올바르지 않습니다.");
     //   if (status === 403) setErrMessage("탈퇴된 회원입니다.");
     //   handleModalOpenButtonClick();
-    // }
-  };
-
-  const handleSendVerificationCodeClick = async (email: string) => {
-    // if (isDuplicated.email) {
-    //   return handleModalOpenButtonClick();
-    // }
-    // setErrMessage("");
-    // handleEmailVerificationModalOpenButtonClick();
-    // await authVerificationCodeSend("/api/auth/email", email);
-  };
-
-  const handleEmailVerificationCheck = async () => {
-    // if (verificationCode) {
-    //   const res = await authVerificationCodeCheck(
-    //     "api/auth/email",
-    //     curEmail,
-    //     verificationCode
-    //   );
-    //   if (res.success) {
-    //     setIsVerified(true);
-    //     setVerificationCode("");
-    //     handleEmailVerificationAcceptButtonClick();
-    //   } else {
-    //     setErrMessage("이메일 인증번호가 일치하지 않습니다.");
-    //   }
     // }
   };
 
@@ -182,11 +134,6 @@ const Auth = () => {
               watch={watch}
               errors={errors}
               onRegisterSubmitEvent={handleSubmit(handleRegisterSubmit)}
-              onCheckDuplicationEvent={handleCheckDuplication}
-              onSendVerficationCodeClickEvent={handleSendVerificationCodeClick}
-              isDuplicated={isDuplicated}
-              isVerified={isVerified}
-              setIsVerified={setIsVerified}
             />
           )}
         </FormContainer>
@@ -199,21 +146,7 @@ const Auth = () => {
       >
         {errMessage}
       </Modal>
-      <Modal
-        isOpenModal={isOpenVerifyEmailModal}
-        onModalAcceptButtonClickEvent={handleEmailVerificationCheck}
-        onModalCancelButtonClickEvent={() => {
-          setVerificationCode("");
-          handleEmailVerificationModalCloseButtonClick();
-        }}
-      >
-        {/* <AuthEmailVerification
-          verificationCode={verificationCode}
-          setVerificationCode={setVerificationCode}
-          errMessage={errMessage}
-          emailToSend={curEmail}
-        /> */}
-      </Modal>
+
       <Modal
         isOpenModal={isOpenWelcomeModal}
         isAlertModal={true}

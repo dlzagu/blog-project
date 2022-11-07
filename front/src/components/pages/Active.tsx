@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { postAPI } from "@/api/FetchData";
+import { postAPI } from "../../api/FetchData";
 import styled from "styled-components";
 
 const Active = () => {

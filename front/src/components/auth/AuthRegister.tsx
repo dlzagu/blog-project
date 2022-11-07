@@ -14,14 +14,6 @@ interface Props {
   watch: UseFormWatch<AuthFormInitialType>;
   errors: Partial<FieldErrorsImpl<AuthFormInitialType>>;
   onRegisterSubmitEvent: (e: React.FormEvent) => void;
-  onCheckDuplicationEvent: (endPoint: string, checkData: string) => void;
-  onSendVerficationCodeClickEvent: (email: string) => void;
-  isDuplicated: {
-    email: boolean;
-    nickname: boolean;
-  };
-  isVerified: boolean;
-  setIsVerified: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const AuthReigster: React.FC<Props> = ({
@@ -29,15 +21,10 @@ const AuthReigster: React.FC<Props> = ({
   watch,
   errors,
   onRegisterSubmitEvent,
-  onCheckDuplicationEvent,
-  onSendVerficationCodeClickEvent,
-  isDuplicated,
-  isVerified,
-  setIsVerified,
 }) => {
   const curPassword = watch("password");
   const confirmPassword = watch("confirmPassword");
-  const curEmail = watch("email");
+
   return (
     <RegistrationFormContainer onSubmit={onRegisterSubmitEvent}>
       <BaseIntputContainer>
@@ -45,50 +32,24 @@ const AuthReigster: React.FC<Props> = ({
           {...register("email", {
             required: true,
             pattern: /^\S+@\S+$/i,
-            onBlur: (e) => onCheckDuplicationEvent("email", e.target.value),
           })}
           placeholder="이메일"
-          isDuplicated={isDuplicated.email}
-          disabled={isVerified && true}
         />
         {errors.email && (
           <BaseValidateTextContainer>
             올바른 이메일을 입력해주세요.
           </BaseValidateTextContainer>
         )}
-        {isVerified ? (
-          <VerifiedEmailButton
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              setIsVerified(false);
-            }}
-          >
-            인증확인
-          </VerifiedEmailButton>
-        ) : (
-          <EmailVerificationButton
-            type="button"
-            onClick={() => {
-              onSendVerficationCodeClickEvent(curEmail);
-            }}
-            disabled={!curEmail || errors?.email ? true : false}
-          >
-            인증요청
-          </EmailVerificationButton>
-        )}
       </BaseIntputContainer>
       <BaseIntputContainer>
         <RegistrationInput
-          {...register("nickname", {
+          {...register("name", {
             required: true,
             minLength: 4,
-            onBlur: (e) => onCheckDuplicationEvent("nickname", e.target.value),
           })}
-          placeholder="닉네임"
-          isDuplicated={isDuplicated.nickname}
+          placeholder="이름"
         />
-        {errors?.nickname && (
+        {errors?.name && (
           <BaseValidateTextContainer>
             닉네임을 4글자 이상 사용해주세요.
           </BaseValidateTextContainer>
