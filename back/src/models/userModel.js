@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: [true, "Please add your name"],
     trim: true,
-    maxLength: [15, "Your name is up to 15 chars long."],
+    maxLength: [20, "Your name is up to 20 chars long."],
   },
   email: {
     type: String,
@@ -28,7 +28,7 @@ const userSchema = new mongoose.Schema({
   avatar: {
     type: String,
     default:
-      "https://images.unictool.com/unictoolen/profile/image/jacob_bennett.png",
+      "https://res.cloudinary.com/supertramp69420/image/upload/v1663477807/default-avatar_cpjl9n.jpg",
   },
 });
 
