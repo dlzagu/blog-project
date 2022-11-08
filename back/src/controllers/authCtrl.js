@@ -1,7 +1,11 @@
 import jwt from "jsonwebtoken";
 import Users from "../models/userModel.js";
 import bcrypt from "bcrypt";
-import { generateActiveToken } from "../config/generateToken.js";
+import {
+  generateAccessToken,
+  generateActiveToken,
+  generateRefreshToken,
+} from "../config/generateToken.js";
 import sendMail from "../config/sendMail.js";
 import { validateEmail } from "../middleware/valid.js";
 
@@ -35,35 +39,105 @@ const authCtrl = {
   active: async (req, res) => {
     try {
       const { active_token } = req.body;
-
+      console.log(req.body);
       const decoded = jwt.verify(
         active_token,
         `${process.env.ACTIVE_TOKEN_SECRET}`
       );
 
       const { newUser } = decoded;
+      console.log(newUser);
 
       if (!newUser) return res.status(400).json({ msg: "잘못된 인증입니다." });
 
-      const user = new Users(newUser);
+      const user = await Users.findOne({ email: newUser.email });
 
-      await user.save();
+      if (user) return res.status(400).json({ msg: "Account already exists." });
 
-      res.json({ msg: "계정이 활성화되었습니다!" });
+      const new_user = new Users(newUser);
+
+      await new_user.save();
+
+      res.json({ msg: "Account has been activated!" });
     } catch (error) {
-      let errorMessage;
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  login: async (req, res) => {
+    try {
+      const { email, password } = req.body;
 
-      if (error.code === 11000) {
-        // duplicate key error 11000 in mongodb
-        errorMessage = Object.keys(error.keyValue)[0] + " already exists.";
-      } else {
-        const name = Object.keys(error.errors)[0];
-        errorMessage = error.errors[`${name}`].message;
-      }
+      const user = await Users.findOne({ email });
 
-      return res.status(500).json({ msg: errorMessage });
+      if (!user)
+        return res.status(400).json({ msg: "This account does not exits." });
+
+      // if user exists
+      loginUser(user, password, res);
+    } catch (error) {
+      console.log(error);
+    }
+  },
+  logout: async (req, res) => {
+    try {
+      res.clearCookie("refreshToken", { path: `/api/refresh_token` });
+
+      return res.json({ msg: "Logged out!" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
+  refreshToken: async (req, res) => {
+    try {
+      const rf_token = req.cookies.refreshToken;
+      console.log("rf_token", rf_token);
+      // if refresh token is not present then prompt user to login
+      if (!rf_token) return res.status(400).json({ msg: "Please login now!" });
+
+      /* 
+      if refresh token is  present then verify refresh token,
+      if its correct then login and send access token in res
+      */
+
+      const decoded = jwt.verify(
+        rf_token,
+        `${process.env.REFRESH_TOKEN_SECRET}`
+      );
+
+      if (!decoded.id)
+        return res.status(400).json({ msg: "Please login now!" });
+
+      const user = await Users.findById(decoded.id).select("-password");
+
+      if (!user)
+        return res.status(400).json({ msg: "This account does not exist." });
+
+      const access_token = generateAccessToken({ id: user._id });
+
+      res.json({ msg: "Login Success!", access_token, user });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
     }
   },
 };
+const loginUser = async (user, password, res) => {
+  const isMatch = await bcrypt.compare(password, user.password);
 
+  if (!isMatch) return res.status(400).json({ msg: "Password is incorrect." });
+
+  const access_token = generateAccessToken({ id: user._id });
+  const refresh_token = generateRefreshToken({ id: user._id });
+
+  res.cookie("refreshToken", refresh_token, {
+    httpOnly: true,
+    path: `/api/refresh_token`,
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30days
+  });
+
+  res.json({
+    msg: "Login Success!",
+    access_token,
+    user: { ...user._doc, password: "" },
+  });
+};
 export default authCtrl;
