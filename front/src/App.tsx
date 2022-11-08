@@ -1,19 +1,15 @@
 import React from "react";
-import CustomRouter from "./router/CustomRouter";
-import GlobalStyle from "./styles/globalStyle";
-import { ThemeProvider } from "styled-components";
-import { theme, mixins } from "./styles/theme";
-// import CommonErrorBoundary from "@/components/errorBoundary/CommonErrorBoundary";
+import { Routes, Route } from "react-router-dom";
+import { PageRender } from "./customRouter";
 
-function App() {
+const App = () => {
   return (
-    <React.Fragment>
-      <GlobalStyle />
-      <ThemeProvider theme={{ ...theme, mixins }}>
-        <CustomRouter />
-      </ThemeProvider>
-    </React.Fragment>
+    <Routes>
+      <Route path="/" element={<PageRender />} />
+      <Route path="/:page" element={<PageRender />} />
+      <Route path="/:page/:slug" element={<PageRender />} />
+    </Routes>
   );
-}
+};
 
 export default App;
