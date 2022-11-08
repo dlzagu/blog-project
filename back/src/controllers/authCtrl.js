@@ -83,6 +83,15 @@ const authCtrl = {
       console.log(error);
     }
   },
+  logout: async (req, res) => {
+    try {
+      res.clearCookie("refreshtoken", { path: `/api/refresh_token` });
+
+      return res.json({ msg: "Logged out!" });
+    } catch (error) {
+      return res.status(500).json({ msg: error.message });
+    }
+  },
 };
 const loginUser = async (user, password, res) => {
   const isMatch = await bcrypt.compare(password, user.password);
