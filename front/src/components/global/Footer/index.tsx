@@ -3,10 +3,10 @@ import React from "react";
 const Footer = () => {
   return (
     <footer className="bg-white">
-      <div className="py-6 px-4 bg-gray-100">
+      <div className="py-6 px-4 bg-gray-200">
         <div className="md:flex md:items-center md:justify-between max-w-5xl w-full m-auto">
           <span className="text-sm text-gray-500 sm:text-center">
-            © 2022 <a href="s">Jagu's Blog™</a>. All Rights Reserved.
+            © 2022 <a href="s">Bloggingly™</a>. All Rights Reserved.
           </span>
           <div className="flex mt-4 space-x-6 sm:justify-center md:mt-0">
             <a href="d" className="text-gray-400 hover:text-gray-900 ">
