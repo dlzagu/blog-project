@@ -12,6 +12,7 @@ import CreateBlogForm from "./cards/CreateBlogForm";
 import Quill from "./editor/ReactQuill";
 import Tabs from "./tabs/Tabs";
 import PreviewBlog from "./previewBlog/PreviewBlog";
+import CardVertical from "./cards/CardVertical";
 
 export {
   NotFound,
@@ -30,4 +31,5 @@ export {
   Quill,
   Tabs,
   PreviewBlog,
+  CardVertical,
 };
