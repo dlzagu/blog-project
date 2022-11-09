@@ -1,3 +1,5 @@
+import { createCategory, getCategories } from "./actions/categoryAction";
+
 import {
   loginUser,
   registerUser,
@@ -13,6 +15,7 @@ import {
 } from "./slices/alertSlice";
 
 import { updateUser, resetPassword } from "./actions/profileAction";
+
 import { setAuth } from "./slices/authSlice";
 
 export {
@@ -27,4 +30,6 @@ export {
   updateUser,
   setAuth,
   resetPassword,
+  createCategory,
+  getCategories,
 };
