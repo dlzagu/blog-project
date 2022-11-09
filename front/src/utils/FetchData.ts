@@ -24,3 +24,11 @@ export const putAPI = async (url: string, post: object, token?: string) => {
 
   return res;
 };
+
+export const deleteAPI = async (url: string, token?: string) => {
+  const res = await axios.delete(`http://localhost:4200/apii/${url}`, {
+    headers: { Authorization: token },
+  });
+
+  return res;
+};
