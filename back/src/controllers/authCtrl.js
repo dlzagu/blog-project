@@ -36,6 +36,7 @@ const authCtrl = {
       return res.status(500).json({ msg: err.message });
     }
   },
+
   active: async (req, res) => {
     try {
       const { active_token } = req.body;
@@ -63,6 +64,7 @@ const authCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
   login: async (req, res) => {
     try {
       const { email, password } = req.body;
@@ -78,6 +80,7 @@ const authCtrl = {
       console.log(error);
     }
   },
+
   logout: async (req, res) => {
     try {
       res.clearCookie("refreshToken", { path: `/api/refresh_token` });
@@ -87,6 +90,7 @@ const authCtrl = {
       return res.status(500).json({ msg: error.message });
     }
   },
+
   refreshToken: async (req, res) => {
     try {
       const rf_token = req.cookies.refreshToken;
@@ -120,6 +124,7 @@ const authCtrl = {
     }
   },
 };
+
 const loginUser = async (user, password, res) => {
   const isMatch = await bcrypt.compare(password, user.password);
 
