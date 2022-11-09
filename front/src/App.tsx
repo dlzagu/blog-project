@@ -3,15 +3,16 @@ import { Routes, Route } from "react-router-dom";
 import { useAppDispatch } from "./app/hooks";
 import { Alert, Footer, Header } from "./components";
 import { PageRender } from "./customRouter";
-import { refreshToken } from "./features";
+import { getCategories, refreshToken } from "./features";
 
 const App = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const isLoggedIn = localStorage.getItem("loggedIn");
-    console.log("isLoggedIn", isLoggedIn);
     dispatch(refreshToken(isLoggedIn));
+
+    dispatch(getCategories());
   }, [dispatch]);
 
   return (
