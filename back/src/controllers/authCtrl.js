@@ -127,7 +127,8 @@ const loginUser = async (user, password, res) => {
 
   const access_token = generateAccessToken({ id: user._id });
   const refresh_token = generateRefreshToken({ id: user._id });
-
+  console.log("refresh", refresh_token);
+  res.setHeader("Authorization", "Bearer " + refresh_token);
   res.cookie("refreshToken", refresh_token, {
     httpOnly: true,
     path: `/api/refresh_token`,
