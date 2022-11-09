@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { patchAPI } from "../../utils/FetchData";
+import { putAPI } from "../../utils/FetchData";
 import { checkImage, imageUpload } from "../../utils/ImageUpload";
 import { checkPassword } from "../../utils/ValidRegister";
 import {
@@ -38,7 +38,7 @@ export const updateUser = createAsyncThunk(
         })
       );
 
-      const res = await patchAPI(
+      const res = await putAPI(
         "user",
         {
           avatar: url ? url : auth.user.avatar,
@@ -50,7 +50,7 @@ export const updateUser = createAsyncThunk(
       thunkApi.dispatch(setAlertSuccess({ success: res.data.msg }));
     } catch (err: any) {
       thunkApi.dispatch(setAlertError({ error: err.response.data.msg }));
-
+      console.log("updateerr", err);
       thunkApi.rejectWithValue(err.response.data.msg);
     }
   }
@@ -65,13 +65,10 @@ export const resetPassword = createAsyncThunk(
 
     try {
       thunkApi.dispatch(setAlertLoading({ loading: true }));
+      console.log("access_token", access_token);
 
       if (access_token) {
-        const res = await patchAPI(
-          "reset_password",
-          { password },
-          access_token
-        );
+        const res = await putAPI("reset_password", { password }, access_token);
 
         thunkApi.dispatch(setAlertSuccess({ success: res.data.msg }));
       }

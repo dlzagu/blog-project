@@ -17,8 +17,8 @@ export const getAPI = async (url: string, token?: string) => {
   return res;
 };
 
-export const patchAPI = async (url: string, post: object, token?: string) => {
-  const res = await axios.patch(`http://localhost:4200/api/${url}`, post, {
+export const putAPI = async (url: string, post: object, token?: string) => {
+  const res = await axios.put(`http://localhost:4200/api/${url}`, post, {
     headers: { "Content-Type": "application/json", Authorization: token },
   });
 
