@@ -29,6 +29,12 @@ export interface IUser extends IUserLogin {
   _id: string;
 }
 
+export interface IGoogleResponse {
+  clientId: string;
+  credential: string;
+  select_by: string;
+}
+
 export interface IUserProfile extends IUserRegister {
-  avatar: string | File;
+  avatar?: File;
 }
