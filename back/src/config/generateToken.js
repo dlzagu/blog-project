@@ -10,7 +10,7 @@ export const generateActiveToken = (payload) => {
 
 export const generateAccessToken = (payload) => {
   return jwt.sign(payload, `${process.env.ACCESS_TOKEN_SECRET}`, {
-    expiresIn: "15m",
+    expiresIn: "2d",
   });
 };
 

@@ -53,16 +53,16 @@ export const validCreateBlog = ({
 
   if (title.trim().length < 10) {
     err.push("Title cant be less than 10 characters.");
-  } else if (title.trim().length > 30) {
-    err.push("Title cant be more than 30 characters long.");
+  } else if (title.trim().length > 50) {
+    err.push("Title cant be more than 50 characters long.");
   }
 
   if (content.trim().length < 1000) {
     err.push("Content has at least 1000 characters.");
   }
 
-  if (description.trim().length < 30) {
-    err.push("Description should be at least 30 characters.");
+  if (description.trim().length < 50) {
+    err.push("Description should be at least 50 characters.");
   } else if (description.trim().length > 200) {
     err.push("Description cant be more than 200 characters long.");
   }
