@@ -9,6 +9,9 @@ import UserProfile from "./profile/UserProfile";
 import CurrentUserProfile from "./profile/CurrentUserProfile";
 import CardHorizontal from "./cards/CardHorizontal";
 import CreateBlogForm from "./cards/CreateBlogForm";
+import Quill from "./editor/ReactQuill";
+import Tabs from "./tabs/Tabs";
+import PreviewBlog from "./previewBlog/PreviewBlog";
 
 export {
   NotFound,
@@ -24,4 +27,7 @@ export {
   CurrentUserProfile,
   CardHorizontal,
   CreateBlogForm,
+  Quill,
+  Tabs,
+  PreviewBlog,
 };
