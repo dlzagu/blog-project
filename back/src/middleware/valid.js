@@ -11,8 +11,8 @@ export const validRegister = async (req, res, next) => {
 
   if (!email) {
     errors.push("Please add your email or phone number.");
-  } else if (!validPhone(email) && !validateEmail(email)) {
-    errors.push("Email or phone number format is incorrect.");
+  } else if (!validateEmail(email)) {
+    errors.push("Email number format is incorrect.");
   }
 
   if (password.length < 6) {
