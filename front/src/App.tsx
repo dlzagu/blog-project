@@ -1,5 +1,8 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Routes, Route } from "react-router-dom";
+import GlobalStyle from "./styles/globalStyle";
+import { ThemeProvider } from "styled-components";
+import { theme, mixins } from "./styles/theme";
 import { useAppDispatch } from "./app/hooks";
 import { Alert, Footer, Header } from "./components";
 import { PageRender } from "./customRouter";
@@ -18,21 +21,23 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <div className="bg-gray-100">
-      <Header />
+    <>
+      <GlobalStyle />
+      <ThemeProvider theme={{ ...theme, mixins }}>
+        <Header />
+        <Alert />
 
-      <Alert />
+        <div className="relative top-16">
+          <Routes>
+            <Route path="/" element={<PageRender />} />
+            <Route path="/:page" element={<PageRender />} />
+            <Route path="/:page/:slug" element={<PageRender />} />
+          </Routes>
+        </div>
 
-      <div className="relative top-16">
-        <Routes>
-          <Route path="/" element={<PageRender />} />
-          <Route path="/:page" element={<PageRender />} />
-          <Route path="/:page/:slug" element={<PageRender />} />
-        </Routes>
-      </div>
-
-      <Footer />
-    </div>
+        <Footer />
+      </ThemeProvider>
+    </>
   );
 };
 
