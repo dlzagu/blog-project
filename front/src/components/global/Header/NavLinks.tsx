@@ -1,5 +1,6 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import styled from "styled-components";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 
 import NavLinkDropdown from "./NavLinkDropdown";
@@ -8,52 +9,73 @@ const NavLinks = () => {
   const { auth } = useAppSelector((state) => state);
 
   const dispatch = useAppDispatch();
-
+  const navigate = useNavigate();
   return (
-    <ul className="flex p-2 items-center rounded-lg border-gray-100 space-x-8 mt-0 text-sm font-medium border-0 bg-white">
+    <NavContainer>
       <li>
-        <NavLink
-          to={auth.access_token ? "/" : "login"}
-          className={({ isActive }) =>
-            isActive
-              ? "block py-2 pr-4 pl-3  text-blue-700 rounded bg-transparent"
-              : "block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 hover:bg-transparent hover:text-blue-700 "
-          }
+        <Nav
+          onClick={() => {
+            auth.access_token ? navigate("/") : navigate("login");
+          }}
         >
           {auth.access_token ? "Home" : "Login"}
-        </NavLink>
+        </Nav>
       </li>
       <li>
-        <NavLink
-          to={auth?.access_token ? "createBlog" : "register"}
-          className={({ isActive }) =>
-            isActive
-              ? "block py-2 pr-4 pl-3  text-blue-700 rounded bg-transparent"
-              : "block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 hover:bg-transparent hover:text-blue-700 "
-          }
+        <Nav
+          onClick={() => {
+            auth.access_token ? navigate("createBlog") : navigate("regsiter");
+          }}
         >
           {auth?.access_token ? "Create Blog" : "Register"}
-        </NavLink>
+        </Nav>
       </li>
 
       {auth.user?.role === "admin" && (
         <li>
-          <NavLink
-            to="/category"
-            className={({ isActive }) =>
-              isActive
-                ? "block py-2 pr-4 pl-3  text-blue-700 rounded bg-transparent"
-                : "block py-2 pr-4 pl-3 text-gray-700 rounded hover:bg-gray-100 hover:bg-transparent hover:text-blue-700 "
-            }
+          <Nav
+            onClick={() => {
+              navigate("category");
+            }}
           >
             Category
-          </NavLink>
+          </Nav>
         </li>
       )}
 
       <li>{auth?.user && <NavLinkDropdown />}</li>
-    </ul>
+    </NavContainer>
   );
 };
+
+const NavContainer = styled.ul`
+  ${({ theme }) => theme.mixins.flexBox()}
+  border-radius: 0.8rem;
+  border-color: ${({ theme }) => theme.lightGrey};
+  padding: 0.8rem;
+  * + * {
+    margin-left: ${({ theme }) => theme.spacingLarge};
+  }
+  margin-top: 0px;
+  font-size: ${({ theme }) => theme.fontSemiRegular};
+  line-height: ${({ theme }) => theme.spacingMedium};
+  font-weight: ${({ theme }) => theme.weightSemiBold};
+  border-width: 0px;
+  background-color: ${({ theme }) => theme.mainWhite};
+`;
+const Nav = styled.nav`
+  display: block;
+  padding-top: ${({ theme }) => theme.spacingSemiRegular};
+  padding-bottom: ${({ theme }) => theme.spacingSemiRegular};
+  padding-right: ${({ theme }) => theme.spacingSemiMedium};
+  padding-left: ${({ theme }) => theme.spacingRegular};
+  color: ${({ theme }) => theme.darkGrey};
+  border-radius: ${({ theme }) => theme.spacingSmallest};
+
+  &:hover {
+    background-color: transparent;
+    color: ${({ theme }) => theme.themeColor};
+  }
+`;
 
 export default NavLinks;

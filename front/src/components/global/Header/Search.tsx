@@ -1,13 +1,13 @@
-import React from "react";
+import styled from "styled-components";
 
 const Search = () => {
   return (
-    <form className="flex items-center w-96">
-      <label htmlFor="search" className="sr-only">
+    <SearchForm>
+      <SearchLabel htmlFor="search" className="sr-only">
         Search
-      </label>
-      <div className="relative w-full">
-        <div className="flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none">
+      </SearchLabel>
+      <SearchContent>
+        <SearchIcon>
           <svg
             aria-hidden="true"
             className="w-5 h-5 text-gray-500"
@@ -21,16 +21,50 @@ const Search = () => {
               clipRule="evenodd"
             ></path>
           </svg>
-        </div>
-        <input
-          type="text"
-          id="search"
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full pl-10 p-2.5"
-          placeholder="Search"
-        />
-      </div>
-    </form>
+        </SearchIcon>
+        <SearchInput type="text" id="search" placeholder="Search" />
+      </SearchContent>
+    </SearchForm>
   );
 };
 
 export default Search;
+
+const SearchForm = styled.form`
+  width: 24rem;
+  ${({ theme }) => theme.mixins.flexBox()}
+`;
+
+const SearchLabel = styled.label``;
+
+const SearchContent = styled.div`
+  position: relative;
+  width: 100%;
+`;
+
+const SearchIcon = styled.div`
+  ${({ theme }) => theme.mixins.flexBox()}
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  padding-left: 0.75rem;
+  pointer-events: none;
+`;
+
+const SearchInput = styled.input`
+  background-color: ${({ theme }) => theme.mainGrey};
+  border: 1px solid ${({ theme }) => theme.lightDarkGrey};
+  color: ${({ theme }) => theme.darkGrey};
+  border-radius: 0.5rem;
+  font-size: ${({ theme }) => theme.fontRegular};
+  line-height: 1.75rem;
+  display: block;
+  width: 100%;
+  padding-left: 2.5rem;
+
+  &:focus {
+    --tw-ring-color: ${({ theme }) => theme.themeColor};
+    border-color: ${({ theme }) => theme.themeColor};
+  }
+`;
