@@ -50,6 +50,7 @@ const NavLinks = () => {
 
 const NavContainer = styled.ul`
   ${({ theme }) => theme.mixins.flexBox()}
+  ${({ theme }) => theme.mixins.textSm()}
   border-radius: 0.8rem;
   border-color: ${({ theme }) => theme.lightGrey};
   padding: 0.8rem;
@@ -57,8 +58,6 @@ const NavContainer = styled.ul`
     margin-left: ${({ theme }) => theme.spacingLarge};
   }
   margin-top: 0px;
-  font-size: ${({ theme }) => theme.fontSemiRegular};
-  line-height: ${({ theme }) => theme.spacingMedium};
   font-weight: ${({ theme }) => theme.weightSemiBold};
   border-width: 0px;
   background-color: ${({ theme }) => theme.mainWhite};
