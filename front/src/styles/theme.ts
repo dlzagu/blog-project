@@ -36,8 +36,8 @@ export const theme = {
   spacingMedium: "2rem",
   spacingSemiMedium: "1.6rem",
   spacingRegular: "1.2rem",
-  spacingSemiRegular: "1rem",
-  spacingSmall: "0.5rem",
+  spacingSemiRegular: "0.8rem",
+  spacingSmall: "0.6rem",
   spacingSmallest: "0.4rem",
 
   bpLargest: "75em", //1200px
@@ -139,6 +139,11 @@ export const mixins = {
     padding: 1rem 2rem;
     border-radius: 0.5rem;
     border:${border};
+    `,
+
+  textSm: () => `
+    font-size: ${theme.fontSemiRegular};
+    line-height: ${theme.spacingMedium};
     `,
   input: (
     width = "100%",
