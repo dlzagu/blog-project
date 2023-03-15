@@ -23,7 +23,6 @@ const HeaderContainer = styled.header`
   position: fixed;
   top: 0;
   width: 100%;
-  padding: 0 8%;
   background: transparent;
   background-color: ${({ theme }) => theme.mainWhite};
   z-index: 10;
@@ -31,6 +30,8 @@ const HeaderContainer = styled.header`
 
 const ContentContainer = styled.nav`
   width: 100%;
-  height: 7rem;
-  ${({ theme }) => theme.mixins.flexBox("row", "center", "space-between")}
+  height: 6.4rem;
+  padding: 0.4rem 2.4rem 0.4rem 2.4rem;
+  ${({ theme }) => theme.mixins.flexBox("row", "center", "space-between")};
+  margin: auto;
 `;
